@@ -3,15 +3,18 @@ package com.codegym.service.product;
 
 
 import com.codegym.model.Product;
+import com.codegym.service.GeneralService;
 
-public interface ProductService {
+import java.util.List;
+
+public interface ProductService extends GeneralService<Product> {
 //
-//    List<Product> findAll();
+    List<Product> findAll();
+
+    Product findByCode(String productCode);
 //
-//    Product findByCode(String productCode);
+    Product save(Product product);
 //
-    void save(Product product);
-//
-//    void remove(Product productCode);
+    void remove(Product productCode);
 
 }

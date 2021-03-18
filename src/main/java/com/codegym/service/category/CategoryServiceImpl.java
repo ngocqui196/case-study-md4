@@ -2,10 +2,12 @@ package com.codegym.service.category;
 
 
 import com.codegym.model.Category;
-import com.codegym.repository.admin.CategoryRepository;
-import com.codegym.service.product.CategoryService;
+
+import com.codegym.repository.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -25,12 +27,15 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id);
     }
 
+    @Override
+    public Category save(Category category) {
+        return categoryRepository.save(category);
+    }
+
 //    @Override
 //    public Optional<Category> findById(Long id) {
 //        return categoryRepository.findById(id);
 //    }
-
-
 //
 //    @Override
 //    public Page<Category> findAll(Pageable pageable) {
@@ -42,9 +47,16 @@ public class CategoryServiceImpl implements CategoryService {
 //        return categoryRepository.findAllByCategoryName(categoryName,pageable);
 //    }
 
+
+
     @Override
-    public void save(Category category) {
-        categoryRepository.save(category);
+    public Optional<Category> findById(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void remove(Long id) {
+
     }
 
     @Override
@@ -52,10 +64,4 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.updateById(id);
     }
 
-
-
-//    @Override
-//    public void remove(Long id) {
-//
-//    }
 }

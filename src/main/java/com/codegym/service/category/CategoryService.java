@@ -12,7 +12,7 @@ public interface CategoryService extends GeneralService<Category> {
 //
     Category findById(int id);
 
-    void save(Category category);
+    Category save(Category category);
 
     void updateById(Long id);
 }

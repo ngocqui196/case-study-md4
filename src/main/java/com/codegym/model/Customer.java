@@ -29,6 +29,9 @@ public class Customer implements Serializable {
     @Size(max = 45)
     private String password;
 
+    @ManyToOne
+    private Role role;
+
     public Customer() {
     }
 

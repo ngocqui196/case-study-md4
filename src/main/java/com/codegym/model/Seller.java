@@ -19,7 +19,7 @@ public class Seller {
     private String password;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private List<Role> roles;
+    private Role roles;
 
     public Long getId() {
         return id;
