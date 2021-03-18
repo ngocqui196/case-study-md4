@@ -9,8 +9,6 @@ import java.util.Set;
 @Table(name = "role")
 public class Role implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -20,8 +18,10 @@ public class Role implements Serializable {
     private String roleName;
 
     @ManyToMany(mappedBy = "roles")
-    private List<Seller> sellers;
+    private List<Admin> admins;
 
+    public Role() {
+    }
 
     public Long getId() {
         return id;
