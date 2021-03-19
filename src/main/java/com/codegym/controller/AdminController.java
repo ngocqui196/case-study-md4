@@ -11,7 +11,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    @GetMapping("/admin")
+    @GetMapping
     public String home() {
         return "admin/admin";
     }

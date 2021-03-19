@@ -1,6 +1,7 @@
 package com.codegym;
 
-import com.codegym.service.SellerDetailServiceImpl;
+import com.codegym.service.admin.AdminServiceImpl;
+import com.codegym.service.seller.SellerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,17 +15,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("user").password("{noop}12345").roles("USER")
-//                .and()
-//                .withUser("templates/views/admin").password("{noop}12345").roles("ADMIN");
-
 
     @Autowired
-    private SellerDetailServiceImpl detailService;
+    private AdminServiceImpl adminService;
+    @Autowired
+    private SellerServiceImpl sellerService;
+
+    @Autowired
+    private CustomSuccessHandler customSuccessHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -37,31 +35,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Sét đặt dịch vụ để tìm kiếm User trong Database.
         // Và sét đặt PasswordEncoder.
-        auth.userDetailsService(detailService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(adminService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(sellerService).passwordEncoder(passwordEncoder());
     }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("user").password("{noop}12345").roles("USER")
-//                .and()
-//                .withUser("admin").password("{noop}12345").roles("ADMIN");
-//    }
-
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/customer**").hasRole("CUSTOMER")
-                .and()
-                .authorizeRequests().antMatchers("/seller**").hasRole("SELLER")
-                .and()
-                .authorizeRequests().antMatchers("/admin**").hasRole("ADMIN")
-                .and()
-                .formLogin()
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                .antMatchers("/seller").access("hasRole('ROLE_SELLER')")
+                .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
+//                .antMatchers("/templates/customer").access("hasRole('CUSTOMER')")
+                .and().formLogin()
+//                .loginPage("/login")//
+//                .loginProcessingUrl("/check_login") // Submit URL
+////                .defaultSuccessUrl("/userAccountInfo")//
+//                .failureUrl("/login?error=true")//
+//                .usernameParameter("username")//
+//                .passwordParameter("password")
+                .successHandler(customSuccessHandler)
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
     }
 }

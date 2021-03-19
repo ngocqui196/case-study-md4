@@ -1,4 +1,6 @@
-package com.codegym.model;
+package com.codegym.model.seller;
+
+import com.codegym.model.Role;
 
 import javax.persistence.*;
 import java.util.List;
@@ -77,11 +79,20 @@ public class Seller {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+//    public List<Role> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(List<Role> roles) {
+//        this.roles = roles;
+//    }
+
+
+    public Role getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Role roles) {
         this.roles = roles;
     }
 }
